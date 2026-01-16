@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { form, Field, required, email, submit } from '@angular/forms/signals';
+import { form, required, email, submit, FormField } from '@angular/forms/signals';
 
 interface LoginData {
   email: string;
@@ -11,7 +11,7 @@ interface LoginData {
 
 @Component({
   selector: 'app-root',
-  imports: [Field, DatePipe],
+  imports: [DatePipe, FormField],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -24,9 +24,9 @@ export class App {
   });
 
   loginForm = form(this.loginModel, (field) => {
-    //required(field.email, { message: 'Email é requerido' });
-    //email(field.email, { message: 'Email inválido' });
-    //required(field.password, { message: 'Senha é requerida' });
+    required(field.email, { message: 'Email é requerido' });
+    email(field.email, { message: 'Email inválido' });
+    required(field.password, { message: 'Senha é requerida' });
   });
 
   date: Date | null = null;
