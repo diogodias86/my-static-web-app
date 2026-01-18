@@ -62,4 +62,11 @@
 
   <p>Remember me: {{ loginForm.createdAt().value() ? (loginForm.createdAt().value() | date:'dd/MM/yyyy') : 'No date'}}
   </p>
+
+  @if(apiHealthResponse())
+  {
+    <p>API Health: {{apiHealthResponse()?.ok}}</p>
+  }
+
+  <button (click)="onHealthClick()">Get API Health</button>
 </div>

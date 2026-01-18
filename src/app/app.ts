@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import { form, required, email, submit, FormField } from '@angular/forms/signals';
 
 interface LoginData {
@@ -16,6 +17,8 @@ interface LoginData {
   styleUrl: './app.css',
 })
 export class App {
+  http = inject(HttpClient);
+
   loginModel = signal<LoginData>({
     email: '',
     password: '',
@@ -31,6 +34,8 @@ export class App {
 
   date: Date | null = null;
 
+  apiHealthResponse = signal<{ ok: boolean } | null>(null);
+
   onSubmit(event: Event) {
     event.preventDefault();
 
@@ -42,5 +47,13 @@ export class App {
 
       //console.log(date.toLocaleDateString());
     });
+  }
+
+  onHealthClick() {
+    this.apiHealthResponse.set(null);
+
+    this.http.get<{ ok: boolean }>('https://awsrunnerdemo.onrender.com/api/health').subscribe(
+      (response) => this.apiHealthResponse.set(response)
+    );
   }
 }
